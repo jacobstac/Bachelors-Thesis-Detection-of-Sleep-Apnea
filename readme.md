@@ -4,7 +4,7 @@
 
 Working with polysomnography data provided by physioNet data repository, to find abnormalities in sleep using machine learning. 
 
-<img align = "center" src="images/sheep.png" width="50%">
+<p align="center"><img align = "center" src="images/sheep.png" width="50%"></p>
 
 ##### **Abstract:**
 
@@ -27,26 +27,26 @@ Poor sleep quality can cause health issues. Diagnosing sleep illnesses is done b
 
 
 
-<img align = "center" src="images/s1.png" width="80%">
+<p align="center"><img align = "center" src="images/s1.png" width="80%"></p>
 
 The type of data used to classify sleep arousals is derived from a sort of sleep study called polysomnography. The data derived consists of a variety of different physiological signals including: EEG(brain activity), EOG(eye movements), EMG(heart activity).
 
-<img align = "center" src="images/s2.png" width="80%">
+<p align="center"><img align = "center" src="images/s2.png" width="80%"></p>
 
 Above is a sample of the PSG data used in our project, to illustrate what the data looks like. 
 
 This is an annotated arousal  of type respiratory effort related arousal which means it has to do with breathing. We can see how the stomach and chest retracts and how the saturation of oxygen in the breath lowers. !This! Is what we our trying to find. Some patterns are hard to see even for sleep technicians. 
 
-<img align = "center" src="images/s3.png" width="80%">
+<p align="center"><img align = "center" src="images/s3.png" width="80%"></p>
 
 The data used in this project was taken from a repository of Physiological data called PhysioNet. It was contributed by the Massachusetts General Hospital. The data had been annotated by medical professionals, there were a total of 13 different types of arousals but our project was  limited to binary classification. Arousal or not Arousal. 
 
-<img align = "center" src="images/s4.png" width="80%">
+<p align="center"><img align = "center" src="images/s4.png" width="80%"></p>
 
 First we had perform some analysis on the data and figure out what features to train our model on. 
 After this we implemented features selection, then trained and tested our models. 
 
-<img align = "center" src="images/s5.png" width="80%">
+<p align="center"><img align = "center" src="images/s5.png" width="80%"></p>
 
 The first thing that we had to do was to normalize the data. 
 
@@ -54,11 +54,11 @@ The process of normalization puts all signals on the same interval, this is impo
 
  
 
-<img align = "center" src="images/s6.png" width="80%">
+<p align="center"><img align = "center" src="images/s6.png" width="80%"></p>
 
 It was significant that these signals had lowered at the end. A single measurement if a signal does not contain a lot of information, it is important to look at values before and after a measurement.
 
-<img align = "center" src="images/s7.png" width="80%">
+<p align="center"><img align = "center" src="images/s7.png" width="80%"></p>
 
 **Analysis - Covariance Matrix** 
 To analyze the data we calculated average waveforms for each of the 13 types of arousals. 
@@ -67,7 +67,7 @@ To analyze the data we calculated average waveforms for each of the 13 types of 
 
 For each of these 13 average waveforms we calculated covariance matrices, to see how the signals interact before the events. A covariance matrix is a matrix that shows how different data samples correlate with each other. For example column i, row j shows how much signal i and j correlate with each other. Here we can see that signal 11 is highly correlated with signal 9. We concluded that this matrices had value and was going to be used later on.
 
-<img align = "center" src="images/s8.png" width="50%">
+<p align="center"><img align = "center" src="images/s8.png" width="50%"></p>
 
 **Extracting Features**
 As mentioned earlier we extracted features from an interval of 10 seconds each that is a matrix of 2000x13 was used to calculate a data point. 
@@ -80,13 +80,13 @@ fourier transform of the interval
 
 , which is a technique for analysing the different underlying frequencies of an irregular signal.
 
-<img align = "center" src="images/s9.png" width="80%">
+<p align="center"><img align = "center" src="images/s9.png" width="80%"></p>
 
 We used **Recursive feature elimination** as our tool for selecting the best features.
 
 It  is a technique for selecting a number of features by recursively considering smaller and smaller sets of features.  We tested different numbers of selected features to come up with the optimal amount. 
 
-<img align = "center" src="images/s10.png" width="80%">
+<p align="center"><img align = "center" src="images/s10.png" width="80%"></p>
 
 **Training the models**
 *ML modelANN:*
@@ -101,12 +101,12 @@ It  is a technique for selecting a number of features by recursively considering
 - Support Vector Machine (SVM) is a machine learning technique that is used for binary discriminative classification. 
 - The SVM uses a decision boundary to separate data points between classes.
 
-<img align = "center" src="images/s11.png" width="60%">
+<p align="center"><img align = "center" src="images/s11.png" width="60%"></p>
 
 In the extracted data set data ratio between arousals vs non-arousal was 1 to 22. this is as you see very unbalanced.  Training the models on this imbalanced data yielded models that could not classify a single arousal correctly. We implemented a balancing algorithm resulting in a ratio of 1:2. 
 This method is called undersampling. 
 
-<img align = "center" src="images/s12.png" width="80%">
+<p align="center"><img align = "center" src="images/s12.png" width="80%"></p>
 
 **Evaluation**
 Simply using a percentage is not a good measure of accuracy in a situation like this, the classes are very imbalanced meaning that one class is more prominent. 21/22  ≈ 95% approx of the samples are NON arousal this means that guessing 0 on all  samples would yield an accuracy percentage of 95% but the actual predictive power would be terrible. AUC 
